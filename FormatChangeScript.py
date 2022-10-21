@@ -80,7 +80,7 @@ if csv is not None:
     #st.write(csv_df)
 
     if(format_change == 'DBS FSA'):
-        csv_df = csv_df.rename(columns = {"FEIN":"Client Federal ID", "EE SSN":"Participant Number","First Name":"Participant First Name","Middle Name":"Participant Middle Initial","Last Name":"Participant Last Name","Address Line 1":"Participant Address 1","Address Line 2":"Participant Address 2","City":"Participant City","State":"Participant State","Zip":"Participant Zip Code","EE Email":"Participant Email Address", "EE Date of Birth":"Participant Date of Birth", "Home Phone":"Participant Phone","Benefit Plan Name":"Plan Type Code","Coverage Effective Date":"Enrollment Effective Date","FSA Coverage Amount":"Pay Period Amount"})
+        csv_df = csv_df.rename(columns = {"FEIN":"Client Federal ID", "SSN":"Participant Number","First Name":"Participant First Name","Middle Name":"Participant Middle Initial","Last Name":"Participant Last Name","Address Line 1":"Participant Address 1","Address Line 2":"Participant Address 2","City":"Participant City","State":"Participant State","Zip":"Participant Zip Code","EE Email":"Participant Email Address", "EE Date of Birth":"Participant Date of Birth", "Home Phone":"Participant Phone","Benefit Plan Name":"Plan Type Code","Coverage Effective Date":"Enrollment Effective Date","FSA Coverage Amount":"Pay Period Amount"})
 
         csv_df.insert(2, 'Participant Number Type', 1) #Participant Number Type
         csv_df.insert(13, 'Payroll Mode', 'M') #Payroll Mode
