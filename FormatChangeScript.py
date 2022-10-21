@@ -85,7 +85,7 @@ if csv is not None:
         csv_df.insert(2, 'Participant Number Type', 1) #Participant Number Type
         csv_df.insert(13, 'Payroll Mode', 'M') #Payroll Mode
         csv_df.insert(17, 'Effective Posting  Date', csv_df['Enrollment Effective Date']) #Effective Posting Date
-        csv_df.insert(20, 'Annual Election', csv_df['Pay Period Amount'] * 12) #Effective Posting Date
+        csv_df.insert(20, 'Annual Election', csv_df['Pay Period Amount'].replace( '[\$,)]','', regex=True ).astype(float)) #Effective Posting Date
         csv_df.insert(21, 'Funding Type', 1) #Funding Type
         csv_df.insert(22, 'Employer Funding Code', ' ') #Funding Type
         csv_df.insert(23, 'COBRA Effective Date', ' ') #COBRA Effective Date
@@ -93,14 +93,24 @@ if csv is not None:
         csv_df.insert(25, 'Participant Other Number', ' ') #Participant Other Number
         csv_df.insert(26, 'Debit Card Enrollment', 0) #Debit Card Enrollmente
         csv_df.insert(27, 'Auto Reimbursement', 0) #Auto Reimbursement
-        csv_df.insert(28, 'Direct Deposit – Bank Routing Number', ' ') #Funding Type
-        csv_df.insert(29, 'Direct Deposit – Bank Account Number', ' ') #Funding Type
-        csv_df.insert(30, 'Direct Deposit – Bank Account Type Code', ' ') #Funding Type
+        csv_df.insert(28, 'Direct Deposit - Bank Routing Number', ' ') #Funding Type
+        csv_df.insert(29, 'Direct Deposit - Bank Account Number', ' ') #Funding Type
+        csv_df.insert(30, 'Direct Deposit - Bank Account Type Code', ' ') #Funding Type
         csv_df.insert(31, 'Enrolled in HSA', ' ') #Funding Type
         csv_df.insert(32, 'Post Deductible Coverage', ' ') #Funding Type
 
 
+
         for i in csv_df.index: # FEIN
+
+            if(csv_df["Annual Election"][i] > 999.99):
+                csv_df["Pay Period Amount"][i] = csv_df["Annual Election"][i]
+
+            csv_df['Annual Election'][i] = csv_df['Annual Election'][i] * 12
+
+            if(csv_df["Annual Election"][i] <= 999.99):
+                csv_df['Annual Election'][i] = '$' + str(csv_df['Annual Election'][i])
+
 
             csv_df['Client Federal ID'][i] = str(csv_df['Client Federal ID'][i]).translate({ord(i): None for i in '-'}) 
 
@@ -108,12 +118,14 @@ if csv is not None:
             csv_df['Participant Number'][i] = str(csv_df['Participant Number'][i]).translate({ord(i): None for i in '-'})
 
 
-            if not(np.isnan(csv_df['Participant Middle Initial'][i])):
+            if not(pd.isnull(csv_df['Participant Middle Initial'][i])):
                 csv_df['Participant Middle Initial'][i] = str(csv_df['Participant Middle Initial'][i])[:1]
 
 
             csv_df['Participant Address 1'][i] = str(csv_df['Participant Address 1'][i]).translate({ord(i): None for i in ','})
-            csv_df['Participant Address 2'][i] = str(csv_df['Participant Address 2'][i]).translate({ord(i): None for i in ','})
+
+            if not(pd.isnull(csv_df['Participant Middle Initial'][i])):
+                csv_df['Participant Address 2'][i] = str(csv_df['Participant Address 2'][i]).translate({ord(i): None for i in ','})
 
             csv_df['Participant Date of Birth'][i] = str(csv_df['Participant Date of Birth'][i]).replace("0:00", "")
 
@@ -126,7 +138,10 @@ if csv is not None:
             if(csv_df['Participant State'][i] in us_state_to_abbrev): 
                 csv_df['Participant State'][i] = us_state_to_abbrev.get(csv_df['Participant State'][i])
 
-        st.write(csv_df)
+        csv_df = csv_df.replace('nan', '').fillna('')
+        #st.write(csv_df)
+
+        
 
         st.download_button(
             label = "Download data as CSV",
@@ -167,6 +182,9 @@ if csv is not None:
 
             csv_df["Funding Date"][i] = str(new_date[1]) + '/' + str(new_date[2]) + '/' + str(new_date[0])
 
+
+        
+        csv_df = csv_df.replace('nan', '').fillna('')
         st.write(csv_df)
 
         st.download_button(
@@ -203,7 +221,12 @@ if csv is not None:
             if(csv_df['Participant State'][i] in us_state_to_abbrev): 
                 csv_df['Participant State'][i] = us_state_to_abbrev.get(csv_df['Participant State'][i])
 
+            if not(pd.isnull(csv_df['Middle Initial'][i])):
+                csv_df['Middle Initial'][i] = str(csv_df['Middle Initial'][i])[:1]
+
+        csv_df = csv_df.replace('nan', '').fillna('')
         st.write(csv_df)
+
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
