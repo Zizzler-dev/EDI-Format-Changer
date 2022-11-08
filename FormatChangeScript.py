@@ -80,36 +80,48 @@ if csv is not None:
     #st.write(csv_df)
 
     if(format_change == 'DBS FSA'):
-        csv_df = csv_df.rename(columns = {"FEIN":"Client Federal ID", "SSN":"Participant Number","First Name":"Participant First Name","Middle Name":"Participant Middle Initial","Last Name":"Participant Last Name","Address Line 1":"Participant Address 1","Address Line 2":"Participant Address 2","City":"Participant City","State":"Participant State","Zip":"Participant Zip Code","EE Email":"Participant Email Address", "EE Date of Birth":"Participant Date of Birth", "Home Phone":"Participant Phone","Benefit Plan Name":"Plan Type Code","Coverage Effective Date":"Enrollment Effective Date","FSA Coverage Amount":"Pay Period Amount"})
+        csv_df = csv_df.rename(columns = {"FEIN":"Client Federal ID", "SSN":"Participant Number","First Name":"Participant First Name","Middle Name":"Participant Middle Initial","Last Name":"Participant Last Name","Address Line 1":"Participant Address 1","Address Line 2":"Participant Address 2","City":"Participant City","State":"Participant State","Zip":"Participant Zip Code","EE Email":"Participant Email Address", "EE Date of Birth":"Participant Date of Birth", "Home Phone":"Participant Phone","Pay Frequency": "Payroll Mode", "Benefit Plan Sub Code 1":"Plan Type Code","Coverage Effective Date":"Enrollment Effective Date","FSA Monthly Amount":"Pay Period Amount", "FSA Elected Amount": "Annual Election"})
 
         csv_df.insert(2, 'Participant Number Type', 1) #Participant Number Type
-        csv_df.insert(13, 'Payroll Mode', 'M') #Payroll Mode
-        csv_df.insert(17, 'Effective Posting  Date', csv_df['Enrollment Effective Date']) #Effective Posting Date
-        csv_df.insert(20, 'Annual Election', csv_df['Pay Period Amount'].replace( '[\$,)]','', regex=True ).astype(float)) #Effective Posting Date
+        csv_df.insert(2, 'Location', '') #Participant Number Type
+        #csv_df.insert(14, 'Payroll Mode', 'M') #Payroll Mode
+        csv_df.insert(18, 'Effective Posting  Date', csv_df['Enrollment Effective Date']) #Effective Posting Date
+        #csv_df.insert(20, 'Annual Election', csv_df['Pay Period Amount'].replace( '[\$,)]','', regex=True ).astype(float)) 
         csv_df.insert(21, 'Funding Type', 1) #Funding Type
-        csv_df.insert(22, 'Employer Funding Code', ' ') #Funding Type
-        csv_df.insert(23, 'COBRA Effective Date', ' ') #COBRA Effective Date
-        csv_df.insert(24, 'COBRA Termination Date', ' ') #Funding Type
-        csv_df.insert(25, 'Participant Other Number', ' ') #Participant Other Number
-        csv_df.insert(26, 'Debit Card Enrollment', 0) #Debit Card Enrollmente
-        csv_df.insert(27, 'Auto Reimbursement', 0) #Auto Reimbursement
-        csv_df.insert(28, 'Direct Deposit - Bank Routing Number', ' ') #Funding Type
-        csv_df.insert(29, 'Direct Deposit - Bank Account Number', ' ') #Funding Type
-        csv_df.insert(30, 'Direct Deposit - Bank Account Type Code', ' ') #Funding Type
-        csv_df.insert(31, 'Enrolled in HSA', ' ') #Funding Type
-        csv_df.insert(32, 'Post Deductible Coverage', ' ') #Funding Type
+        csv_df.insert(22, 'Employer Funding Code', '') #Funding Type
+        csv_df.insert(24, 'COBRA Effective Date', '') #COBRA Effective Date
+        csv_df.insert(25, 'COBRA Termination Date', '') #Funding Type
+        csv_df.insert(26, 'Participant Other Number', '') #Participant Other Number
+        csv_df.insert(27, 'Debit Card Enrollment', 0) #Debit Card Enrollment
+        csv_df.insert(28, 'Auto Reimbursement', 0) #Auto Reimbursement
+        csv_df.insert(29, 'Direct Deposit - Bank Routing Number', '') #Funding Type
+        csv_df.insert(30, 'Direct Deposit - Bank Account Number', '') #Funding Type
+        csv_df.insert(31, 'Direct Deposit - Bank Account Type Code', 0) #Funding Type
+        csv_df.insert(32, 'Enrolled in HSA', 0) #Funding Type
+        csv_df.insert(33, 'Post Deductible Coverage', 0) #Funding Type
+
+        csv_df = csv_df.reindex(columns = ['Client Federal ID', 'Participant Number', 'Participant Number Type', 'Participant First Name', 'Participant Middle Initial', 'Participant Last Name', 'Participant Address 1', 'Participant Address 2', 'Participant City', 'Participant State', 'Participant Zip Code', 'Participant Email Address', 'Participant Date of Birth', 'Participant Phone', 'Payroll Mode', 'Location', 'Plan Type Code', 'Enrollment Effective Date', 'Effective Posting Date', 'Pay Period Amount', 'Annual Election', 'Funding Type', 'Employer Funding Code', 'Termination Date', 'COBRA Effective Date','COBRA Termination Date', 'Participant Other Number', 'Debit Card Enrollment', 'Auto Reimbursement', 'Direct Deposit - Bank Routing Number', 'Direct Deposit - Bank Account Number', 'Direct Deposit - Bank Account Type Code', 'Enrolled in HSA', 'Post Deductible Coverage' ])
 
 
 
         for i in csv_df.index: # FEIN
 
-            if(csv_df["Annual Election"][i] > 999.99):
-                csv_df["Pay Period Amount"][i] = csv_df["Annual Election"][i]
+            if(csv_df['Payroll Mode'][i] == 'Bi-Weekly (26 per year)'):
+                csv_df['Payroll Mode'][i] = 'B'
+                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 26, 2)
+            elif(csv_df['Payroll Mode'][i] == 'Semi-Monthly (24 per year)'):
+                csv_df['Payroll Mode'][i] = 'S'
+                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 24, 2)
+            elif(csv_df['Payroll Mode'][i] == 'Weekly (52 per year)'):
+                csv_df['Payroll Mode'][i] = 'W'
+                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 52, 2)
+            elif(csv_df['Payroll Mode'][i] == 'Monthly (12 per year)'):
+                csv_df['Payroll Mode'][i] = 'M'
+                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 12, 2)
+            
+            csv_df['Pay Period Amount'][i] = str(csv_df['Pay Period Amount'][i]).replace(',', '')
 
-            csv_df['Annual Election'][i] = csv_df['Annual Election'][i] * 12
-
-            if(csv_df["Annual Election"][i] <= 999.99):
-                csv_df['Annual Election'][i] = '$' + str(csv_df['Annual Election'][i])
+            csv_df['Annual Election'][i] = str(csv_df['Annual Election'][i]).replace(',', '')
 
 
             csv_df['Client Federal ID'][i] = str(csv_df['Client Federal ID'][i]).translate({ord(i): None for i in '-'}) 
@@ -139,7 +151,7 @@ if csv is not None:
                 csv_df['Participant State'][i] = us_state_to_abbrev.get(csv_df['Participant State'][i])
 
         csv_df = csv_df.replace('nan', '').fillna('')
-        #st.write(csv_df)
+        st.write(csv_df)
 
         
 
@@ -235,15 +247,16 @@ if csv is not None:
         )
 
     elif(format_change == 'ECHO Import'):
-        csv_df = csv_df.rename(columns = {"Employee ID": "Employee Unique ID", "EE First Name": "First Name", "EE Last Name": "Last Name", "EE State": "State", "Coverage Effective Date": "Coverage Start Date", "Total Premium": "Premium", "Vendor Import Code": "Vendor Code", "Benefit Plan Name": "Plan"})
+        csv_df = csv_df.rename(columns = {"User Hover ID": "Employee Unique ID", "EE First Name": "First Name", "EE Last Name": "Last Name", "EE State": "State", "Coverage Effective Date": "Coverage Start Date", "Total Premium": "Premium", "Vendor Import Code": "Vendor Code", "Benefit Plan Name": "Plan"})
         
         for i in csv_df.index:
             csv_df['FEIN'][i] = str(csv_df['FEIN'][i]).translate({ord(i): None for i in '-'}) 
 
             if(csv_df['State'][i] in us_state_to_abbrev): 
                 csv_df['State'][i] = us_state_to_abbrev.get(csv_df['State'][i])
-        
-        st.write(csv_df)
+
+        csv_df = csv_df.replace('nan', '').fillna('')
+        #st.write(csv_df)
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
