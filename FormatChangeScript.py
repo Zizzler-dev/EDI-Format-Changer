@@ -349,10 +349,10 @@ if csv is not None:
                 csv_df['Enroll Coverage Type Code'][j] = 1
             elif(csv_df['Participant Number'].value_counts()[x] == 2):
                 csv_df['Enroll Coverage Type Code'][j] = 2
-            elif(csv_df['Participant Number'].value_counts()[x] == 3):
+            elif(csv_df['Participant Number'].value_counts()[x] >= 3):
                 csv_df['Enroll Coverage Type Code'][j] = 3
-            elif(csv_df['Participant Number'].value_counts()[x] >= 4):
-                csv_df['Enroll Coverage Type Code'][j] = 4
+            #elif(csv_df['Participant Number'].value_counts()[x] >= 4):
+             #   csv_df['Enroll Coverage Type Code'][j] = 4
         
         #for k in csv_df.index:
         #    y = csv_df['Participant Number'][k]
