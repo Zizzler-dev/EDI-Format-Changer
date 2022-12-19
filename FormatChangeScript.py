@@ -132,6 +132,9 @@ if csv is not None:
             elif(csv_df['Payroll Mode'][i] == 'Weekly (52 per year)'):
                 csv_df['Payroll Mode'][i] = 'W'
                 csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 52, 2)
+            elif(csv_df['Payroll Mode'][i] == 'Weekly (48 per year)'):
+                csv_df['Payroll Mode'][i] = 'W'
+                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 48, 2)
             elif(csv_df['Payroll Mode'][i] == 'Monthly (12 per year)'):
                 csv_df['Payroll Mode'][i] = 'M'
                 csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 12, 2)
@@ -178,6 +181,9 @@ if csv is not None:
 
         csv_df = csv_df.replace('nan', '').fillna('')
 
+
+        csv_df['Participant Number'] = csv_df['Participant Number'].astype(str)
+        csv_df['Participant Number'] = keep_format(csv_df['Participant Number'])
         csv_df['Annual Election'] = csv_df['Annual Election'].astype(float)
         csv_df['Pay Period Amount'] = csv_df['Pay Period Amount'].astype(float)
         csv_df['Annual Election'] = csv_df['Annual Election'].map('{:.2f}'.format)
@@ -349,10 +355,10 @@ if csv is not None:
                 csv_df['Enroll Coverage Type Code'][j] = 1
             elif(csv_df['Participant Number'].value_counts()[x] == 2):
                 csv_df['Enroll Coverage Type Code'][j] = 2
-            elif(csv_df['Participant Number'].value_counts()[x] >= 3):
+            elif(csv_df['Participant Number'].value_counts()[x] == 3):
                 csv_df['Enroll Coverage Type Code'][j] = 3
-            #elif(csv_df['Participant Number'].value_counts()[x] >= 4):
-             #   csv_df['Enroll Coverage Type Code'][j] = 4
+            elif(csv_df['Participant Number'].value_counts()[x] >= 4):
+                csv_df['Enroll Coverage Type Code'][j] = 4
         
         #for k in csv_df.index:
         #    y = csv_df['Participant Number'][k]
