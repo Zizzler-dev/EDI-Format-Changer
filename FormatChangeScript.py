@@ -179,6 +179,9 @@ if csv is not None:
                 csv_df['Client Federal ID'][i] = '410627744'
                 csv_df['Location'][i] = 'Wall Companies'
 
+            if(csv_df['Client Federal ID'][i] == '391994216'):
+                csv_df['Debit Card Enrollment'][i] = 0
+
         csv_df = csv_df.replace('nan', '').fillna('')
 
 
@@ -313,6 +316,9 @@ if csv is not None:
                 csv_df['Location'][i] = 'Firstech, Inc'
             elif(csv_df['Client Federal ID'][i] == '410627744'):
                 csv_df['Location'][i] = 'Highland Bank'
+
+            
+                
             
             
 
