@@ -230,11 +230,13 @@ if csv is not None:
         #st.write(keep_format(new_date))
 
 
-        csv_df = csv_df.rename(columns = {"FEIN":"Client Federal ID", "EE SSN":"Participant SSN","ICHRA Left Over Funds":"Funding Amount","HSA Eligible":"Plan Code"})
+        csv_df = csv_df.rename(columns = {"FEIN":"Client Federal ID", "EE SSN":"Participant Number","ICHRA Left Over Funds":"Funding Amount","HSA Eligible":"Plan Code"})
         csv_df.insert(1, 'Benefit Plan Type', 105) 
         csv_df.insert(3, 'Participant Number Type', 1) 
         csv_df.insert(4, 'Funding Date', new_date) 
         csv_df.insert(6, 'Funding Category', 1)
+
+        csv_df = csv_df.reindex(columns = ['Client Federal ID', 'Benefit Plan Type', 'Participant Number', 'Participant Number Type','Funding Date', 'Funding Amount', 'Funding Category', 'Plan Code' ])
 
         csv_df = csv_df[csv_df['Funding Amount'] > 0]    
         #st.write(csv_df['Funding Amount'][2])
@@ -242,7 +244,7 @@ if csv is not None:
             #if(csv_df['Funding Amount'][i] == 0):
             #    csv_df.drop([csv_df.index[i]])
             csv_df['Client Federal ID'][i] = str(csv_df['Client Federal ID'][i]).translate({ord(i): None for i in '-'}) 
-            csv_df['Participant SSN'][i] = str(csv_df['Participant SSN'][i]).translate({ord(i): None for i in '-'}) 
+            csv_df['Participant Number'][i] = str(csv_df['Participant Number'][i]).translate({ord(i): None for i in '-'}) 
             csv_df['Funding Amount'][i] = str(csv_df['Funding Amount'][i])
 
             if (csv_df['Plan Code'][i] == True):
@@ -258,12 +260,12 @@ if csv is not None:
                 csv_df['Client Federal ID'][i] = '410627744'
 
 
-        csv_df['Participant SSN'] = csv_df['Participant SSN'].astype(str)
+        csv_df['Participant Number'] = csv_df['Participant Number'].astype(str)
         csv_df['Client Federal ID'] = csv_df['Client Federal ID'].astype(str)
         csv_df['Funding Amount'] = csv_df['Funding Amount'].astype(float)
         csv_df['Funding Amount'] = csv_df['Funding Amount'].map('{:.2f}'.format)
         csv_df['Funding Amount'] = keep_format(csv_df['Funding Amount'])
-        csv_df['Participant SSN'] = keep_format(csv_df['Participant SSN'])
+        csv_df['Participant Number'] = keep_format(csv_df['Participant Number'])
         csv_df['Client Federal ID'] = keep_format(csv_df['Client Federal ID'])
         csv_df['Funding Date'] = keep_format(csv_df['Funding Date'])
         
