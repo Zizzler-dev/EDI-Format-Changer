@@ -110,8 +110,8 @@ if csv is not None:
         csv_df.insert(29, 'Direct Deposit - Bank Routing Number', '') #Funding Type
         csv_df.insert(30, 'Direct Deposit - Bank Account Number', '') #Funding Type
         csv_df.insert(31, 'Direct Deposit - Bank Account Type Code', 0) #Funding Type
-        csv_df.insert(32, 'Enrolled in HSA', 0) #Funding Type
-        csv_df.insert(33, 'Post Deductible Coverage', 0) #Funding Type
+        #csv_df.insert(32, 'Enrolled in HSA', 0) #Funding Type
+        csv_df.insert(32, 'Post Deductible Coverage', 0) #Funding Type
 
         
 
@@ -151,6 +151,11 @@ if csv is not None:
 
 
             csv_df['Participant Number'][i] = str(csv_df['Participant Number'][i]).translate({ord(i): None for i in '-'})
+
+            if (csv_df['Plan Code'][i] == True):
+                csv_df['Plan Code'][i] = 'HSA Plan'
+            else:
+                csv_df['Plan Code'][i] = 'Non HSA Plan'
 
 
             if not(pd.isnull(csv_df['Participant Middle Initial'][i])):
