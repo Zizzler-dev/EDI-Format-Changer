@@ -254,10 +254,8 @@ if csv is not None:
 
             if(csv_df['Client Federal ID'][i] == '462655923'):
                 csv_df['Client Federal ID'][i] = '391753459'
-                csv_df['Location'][i] = 'Forest Grove'
             elif(csv_df['Client Federal ID'][i] == '411332521'):
                 csv_df['Client Federal ID'][i] = '410627744'
-                csv_df['Location'][i] = 'Wall Companies'
 
 
         csv_df['Participant SSN'] = csv_df['Participant SSN'].astype(str)
