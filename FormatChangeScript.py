@@ -248,9 +248,9 @@ if csv is not None:
             csv_df['Funding Amount'][i] = str(csv_df['Funding Amount'][i])
 
             if (csv_df['Plan Code'][i] == True):
-                csv_df['Plan Code'][i] = 'HSA Plan'
+                csv_df['Plan Code'][i] = 2
             else:
-                csv_df['Plan Code'][i] = 'Non HSA Plan'
+                csv_df['Plan Code'][i] = 1
 
             csv_df['Funding Date'][i] = fill_date(csv_df['Funding Date'][i])
 
