@@ -152,10 +152,10 @@ if csv is not None:
 
             csv_df['Participant Number'][i] = str(csv_df['Participant Number'][i]).translate({ord(i): None for i in '-'})
 
-            if (csv_df['Plan Code'][i] == True):
-                csv_df['Plan Code'][i] = 'HSA Plan'
+            if (csv_df['Enrolled in HSA'][i] == True):
+                csv_df['Enrolled in HSA'][i] = 'HSA Plan'
             else:
-                csv_df['Plan Code'][i] = 'Non HSA Plan'
+                csv_df['Enrolled in HSA'][i] = 'Non HSA Plan'
 
 
             if not(pd.isnull(csv_df['Participant Middle Initial'][i])):
