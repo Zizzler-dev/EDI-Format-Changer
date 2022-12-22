@@ -323,10 +323,6 @@ if csv is not None:
                 csv_df['Location'][i] = 'Highland Bank'
 
             
-                
-            
-            
-
             if(csv_df['Participant State'][i] in us_state_to_abbrev): 
                 csv_df['Participant State'][i] = us_state_to_abbrev.get(csv_df['Participant State'][i])
 
@@ -366,10 +362,10 @@ if csv is not None:
                 csv_df['Enroll Coverage Type Code'][j] = 1
             elif(csv_df['Participant Number'].value_counts()[x] == 2):
                 csv_df['Enroll Coverage Type Code'][j] = 2
-            elif(csv_df['Participant Number'].value_counts()[x] == 3):
+            elif(csv_df['Participant Number'].value_counts()[x] >= 3):
                 csv_df['Enroll Coverage Type Code'][j] = 3
-            elif(csv_df['Participant Number'].value_counts()[x] >= 4):
-                csv_df['Enroll Coverage Type Code'][j] = 4
+            #elif(csv_df['Participant Number'].value_counts()[x] >= 4):
+            #    csv_df['Enroll Coverage Type Code'][j] = 4
         
         #for k in csv_df.index:
         #    y = csv_df['Participant Number'][k]
@@ -393,6 +389,9 @@ if csv is not None:
 
         csv_df['Participant Zip Code'] = csv_df['Participant Zip Code'].astype(str)
         csv_df['Participant Zip Code'] = keep_format(csv_df['Participant Zip Code'])
+
+        csv_df['Location'] = csv_df['Location'].astype(str)
+        csv_df['Location'] = keep_format(csv_df['Location'])
 
         csv_df['Date of Birth'] = keep_format(csv_df['Date of Birth'])
         csv_df['Effective Date'] = keep_format(csv_df['Effective Date'])
@@ -429,8 +428,6 @@ if csv is not None:
         #csv_df.insert(29, 'Termination Date', '')
 
         st.write(csv_df)
-
-        
 
         for i in csv_df.index:
 
@@ -484,10 +481,10 @@ if csv is not None:
             #csv_df['Enroll Coverage Type Code'][i] = csv_df['Participant Number'].value_counts()[x]
             if(csv_df['Participant Number'].value_counts()[x] == 1):
                 csv_df['Employer Coverage Type Code'][j] = 1
-            elif(csv_df['Participant Number'].value_counts()[x] == 2):
-                csv_df['Employer Coverage Type Code'][j] = 2
-            elif(csv_df['Participant Number'].value_counts()[x] >= 3):
+            elif(csv_df['Participant Number'].value_counts()[x] >= 2):
                 csv_df['Employer Coverage Type Code'][j] = 3
+            #elif(csv_df['Participant Number'].value_counts()[x] >= 3):
+            #    csv_df['Employer Coverage Type Code'][j] = 3
         
         csv_df['Client Federal ID'] = csv_df['Client Federal ID'].astype(str)
         csv_df['Client Federal ID'] = keep_format(csv_df['Client Federal ID'])    
@@ -505,11 +502,11 @@ if csv is not None:
         csv_df['Employee Contribution - Annual Election'] = keep_format(csv_df['Employee Contribution - Annual Election'])
 
         csv_df = csv_df.replace('nan', '').fillna('')
-        csv_df = csv_df[csv_df['Relationship'] != 'Child'] 
-        csv_df = csv_df[csv_df['Relationship'] != 'Spouse'] 
-        csv_df = csv_df[csv_df['Relationship'] != 'Domestic Partner'] 
+        #csv_df = csv_df[csv_df['Relationship'] != 'Child'] 
+        #csv_df = csv_df[csv_df['Relationship'] != 'Spouse'] 
+        #csv_df = csv_df[csv_df['Relationship'] != 'Domestic Partner'] 
         
-        csv_df.drop(['Relationship'], axis=1, inplace=True)
+        #csv_df.drop(['Relationship'], axis=1, inplace=True)
 
         st.write(csv_df)
         st.download_button(
