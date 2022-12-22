@@ -334,17 +334,28 @@ if csv is not None:
             elif(csv_df['Gender'][i] == 'Female'):
                 csv_df['Gender'][i] = 'F'
 
+            if(csv_df['Dependent Number'][i] == ''):
+                st.write()
+
             if(csv_df['Relationship'][i] == 'Employee'):
                 csv_df['Relationship'][i] = 0
                 csv_df['Dependent Number'][i] = ''
             elif(csv_df['Relationship'][i] == 'Spouse'):
                 csv_df['Relationship'][i] = 1
+                if(csv_df['Dependent Number'][i] == ''):
+                    csv_df=csv_df.drop(i)
             elif(csv_df['Relationship'][i] == 'Child'):
                 csv_df['Relationship'][i] = 2
+                if(csv_df['Dependent Number'][i] == ''):
+                    csv_df=csv_df.drop(i)
             elif(csv_df['Relationship'][i] == 'Domestic Partner'):
                 csv_df['Relationship'][i] = 3
+                if(csv_df['Dependent Number'][i] == ''):
+                    csv_df=csv_df.drop(i)
             else:
                 csv_df['Relationship'][i] = 4
+                if(csv_df['Dependent Number'][i] == ''):
+                    csv_df=csv_df.drop(i)
 
             if(csv_df['Enroll Plan Type Code'][i] == True):
                 csv_df['Enroll Plan Type Code'][i] = 'HSA Plan'
