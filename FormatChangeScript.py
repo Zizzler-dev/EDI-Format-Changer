@@ -334,8 +334,18 @@ if csv is not None:
             elif(csv_df['Gender'][i] == 'Female'):
                 csv_df['Gender'][i] = 'F'
 
-            if(csv_df['Dependent Number'][i] == ''):
-                st.write()
+            if(csv_df['Dependent Number'][i] == 'nan'):
+                csv_df['Dependent Number'][i] = ''
+
+            
+
+            if(csv_df['Enroll Plan Type Code'][i] == True):
+                csv_df['Enroll Plan Type Code'][i] = 'HSA Plan'
+            elif(csv_df['Enroll Plan Type Code'][i] == False):
+                csv_df['Enroll Plan Type Code'][i] = 'Non HSA Plan'
+            
+            csv_df['Date of Birth'][i] = fill_date(csv_df['Date of Birth'][i])
+            csv_df['Effective Date'][i] = fill_date(csv_df['Effective Date'][i])
 
             if(csv_df['Relationship'][i] == 'Employee'):
                 csv_df['Relationship'][i] = 0
@@ -356,14 +366,8 @@ if csv is not None:
                 csv_df['Relationship'][i] = 4
                 if(csv_df['Dependent Number'][i] == ''):
                     csv_df=csv_df.drop(i)
-
-            if(csv_df['Enroll Plan Type Code'][i] == True):
-                csv_df['Enroll Plan Type Code'][i] = 'HSA Plan'
-            elif(csv_df['Enroll Plan Type Code'][i] == False):
-                csv_df['Enroll Plan Type Code'][i] = 'Non HSA Plan'
             
-            csv_df['Date of Birth'][i] = fill_date(csv_df['Date of Birth'][i])
-            csv_df['Effective Date'][i] = fill_date(csv_df['Effective Date'][i])
+            
             
         
         for j in csv_df.index:
