@@ -440,6 +440,8 @@ if csv is not None:
 
         st.write(csv_df)
 
+        csv_df['Trustee Name'] = 'UMB'
+
         for i in csv_df.index:
 
             if(csv_df['Payroll Mode'][i] == 'Bi-Weekly (26 per year)'):                         #This if-else loop is used to calculate pay period amount
