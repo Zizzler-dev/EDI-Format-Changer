@@ -212,7 +212,7 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'DBS_FSA.csv',
+            file_name = 'zizzl_MMDDYYYY_125.EL1',
             mime='text'
         )
     
@@ -275,7 +275,7 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'DBS_HRA_Funding.csv',
+            file_name = 'zizzl_MMDDYYYY_105.HFI',
             mime='text'
         )
     
@@ -417,7 +417,7 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'DBS_HRA_Enrollment.csv',
+            file_name = 'zizzl_MMDDYYYY_105.EL1',
             mime='text'
         )
 
@@ -494,14 +494,28 @@ if csv is not None:
             #    csv_df.drop([csv_df.index[i]])
 
         for j in csv_df.index:
-            x = csv_df['Participant Number'][j]
+            
             #csv_df['Enroll Coverage Type Code'][i] = csv_df['Participant Number'].value_counts()[x]
-            if(csv_df['Participant Number'].value_counts()[x] == 1):
-                csv_df['Employer Coverage Type Code'][j] = 1
-            elif(csv_df['Participant Number'].value_counts()[x] >= 2):
+            if(csv_df['Benefit Plan Type'][j] == 'Health Savings Account'):
+                x = csv_df['Participant Number'][j]
+                count = 1
+                for k in csv_df.index:
+                    if(csv_df['Participant Number'][k] == x and csv_df['Relationship'][k] != 'Employee' and csv_df['Benefit Plan Type'][k] == 'Health'):
+                        #st.write(csv_df['Participant Last Name'][k])
+                        count = count + 1
+                csv_df['Employer Coverage Type Code'][j] = count
+                    #count = 1
+                
+            if(csv_df['Employer Coverage Type Code'][j] > 1):
                 csv_df['Employer Coverage Type Code'][j] = 3
             #elif(csv_df['Participant Number'].value_counts()[x] >= 3):
             #    csv_df['Employer Coverage Type Code'][j] = 3
+        #for l in csv_df.index:
+        #    if(csv_df['Employer Coverage Type Code'][l] > 1):
+        #        csv_df['Employer Coverage Type Code'][l] = 3
+        #    elif(csv_df['Employer Coverage Type Code'][l] == 0):
+        #        csv_df['Employer Coverage Type Code'][l] = 1
+
         
         csv_df['Client Federal ID'] = csv_df['Client Federal ID'].astype(str)
         csv_df['Client Federal ID'] = keep_format(csv_df['Client Federal ID'])    
@@ -519,16 +533,18 @@ if csv is not None:
         csv_df['Employee Contribution - Annual Election'] = keep_format(csv_df['Employee Contribution - Annual Election'])
 
         csv_df = csv_df.replace('nan', '').fillna('')
-        #csv_df = csv_df[csv_df['Relationship'] != 'Child'] 
+        csv_df = csv_df[csv_df['Benefit Plan Type'] == 'Health Savings Account'] 
         #csv_df = csv_df[csv_df['Relationship'] != 'Spouse'] 
         #csv_df = csv_df[csv_df['Relationship'] != 'Domestic Partner'] 
         
-        #csv_df.drop(['Relationship'], axis=1, inplace=True)
+        csv_df.drop(['Relationship'], axis=1, inplace=True)
+        csv_df.drop(['Benefit Plan Type'], axis=1, inplace=True)
+
 
         st.write(csv_df)
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'ECHO_Import.csv',
+            file_name = 'zizzl_MMDDYYYY_223.EL1',
             mime='text'
         )
