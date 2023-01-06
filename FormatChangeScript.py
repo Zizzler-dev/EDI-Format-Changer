@@ -212,7 +212,7 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'zizzl_MMDDYYYY_125.EL1',
+            file_name = 'zizzl_MMDDYYYY_125EL1',
             mime='text'
         )
     
@@ -275,7 +275,7 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'zizzl_MMDDYYYY_105.HFI',
+            file_name = 'zizzl_MMDDYYYY_105HFI',
             mime='text'
         )
     
@@ -417,7 +417,7 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'zizzl_MMDDYYYY_105.EL1',
+            file_name = 'zizzl_MMDDYYYY_105EL1',
             mime='text'
         )
 
@@ -545,6 +545,6 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'zizzl_MMDDYYYY_223.EL1',
+            file_name = 'zizzl_MMDDYYYY_223EL1',
             mime='text'
         )
