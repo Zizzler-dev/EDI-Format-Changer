@@ -152,7 +152,7 @@ if csv is not None:
 
             csv_df['Participant Number'][i] = str(csv_df['Participant Number'][i]).translate({ord(i): None for i in '-'})
 
-            if (csv_df['Enrolled in HSA'][i] == True):
+            if (csv_df['Enrolled in HSA'][i] == 'Health Savings Account'):
                 csv_df['Enrolled in HSA'][i] = 1
             else:
                 csv_df['Enrolled in HSA'][i] = 0
