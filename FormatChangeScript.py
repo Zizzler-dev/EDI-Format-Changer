@@ -301,7 +301,10 @@ if csv is not None:
         csv_df.insert(30, 'Coordination of Benefits', 0)
         csv_df.insert(31, 'Termination Reason', '')
 
-        csv_df['Participant Zip Code'] = keep_format(csv_df['Participant Zip Code'].apply('{:0>5}'.format))
+        csv_df['Participant Zip Code'] = csv_df['Participant Zip Code'].astype(str)
+        csv_df['Participant Zip Code'] = csv_df['Participant Zip Code'].str.split('.').str[0].str.zfill(5)
+        csv_df['Participant Zip Code'] = keep_format(csv_df['Participant Zip Code'])
+
         st.write(csv_df)
         #st.write(csv_df['Participant Number'][3])
 
@@ -412,8 +415,8 @@ if csv is not None:
         csv_df['Client Federal ID'] = csv_df['Client Federal ID'].astype(str)
         csv_df['Client Federal ID'] = keep_format(csv_df['Client Federal ID'])
 
-        csv_df['Participant Zip Code'] = csv_df['Participant Zip Code'].astype(str)
-        csv_df['Participant Zip Code'] = keep_format(csv_df['Participant Zip Code'])
+        
+        #csv_df['Participant Zip Code'] = keep_format(csv_df['Participant Zip Code'])
 
         csv_df['Location'] = csv_df['Location'].astype(str)
         csv_df['Location'] = keep_format(csv_df['Location'])
