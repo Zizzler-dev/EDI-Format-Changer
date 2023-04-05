@@ -152,11 +152,6 @@ if csv is not None:
 
             csv_df['Participant Number'][i] = str(csv_df['Participant Number'][i]).translate({ord(i): None for i in '-'})
 
-            if (csv_df['Enrolled in HSA'][i] == 'Health Savings Account'):
-                csv_df['Enrolled in HSA'][i] = 1
-            else:
-                csv_df['Enrolled in HSA'][i] = 0
-
 
             if not(pd.isnull(csv_df['Participant Middle Initial'][i])):
                 csv_df['Participant Middle Initial'][i] = str(csv_df['Participant Middle Initial'][i])[:1]
@@ -185,6 +180,8 @@ if csv is not None:
                 csv_df['Location'][i] = 'Wall Companies'
             elif(csv_df['Client Federal ID'][i] == '391753459'):
                 csv_df['Client Federal ID'][i] = '921398442'
+            elif(csv_df['Client Federal ID'][i] == '842016212' or csv_df['Client Federal ID'][i] == '264677834' or csv_df['Client Federal ID'][i] == '261132759'):
+                csv_df['Client Federal ID'][i] = '261132759'
 
             if(csv_df['Client Federal ID'][i] == '391994216'):
                 csv_df['Debit Card Enrollment'][i] = 0
@@ -206,6 +203,9 @@ if csv is not None:
         csv_df['Annual Election'] = keep_format(csv_df['Annual Election'])
         csv_df['Pay Period Amount'] = keep_format(csv_df['Pay Period Amount'])
 
+        csv_df['Client Federal ID'] = csv_df['Client Federal ID'].astype(str)
+        csv_df['Client Federal ID'] = keep_format(csv_df['Client Federal ID'])
+
         csv_df = csv_df.astype('str')
         st.write(csv_df)
 
@@ -214,7 +214,7 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'zizzl_MMDDYYYY_125.csv',
+            file_name = 'zizzl_MMDDYYYY_125EL1.csv',
             mime='text'
         )
     
@@ -262,6 +262,8 @@ if csv is not None:
                 csv_df['Client Federal ID'][i] = '410627744'
             elif(csv_df['Client Federal ID'][i] == '391753459'):
                 csv_df['Client Federal ID'][i] = '921398442'
+            elif(csv_df['Client Federal ID'][i] == '842016212' or csv_df['Client Federal ID'][i] == '264677834' or csv_df['Client Federal ID'][i] == '261132759'):
+                csv_df['Client Federal ID'][i] = '261132759'
 
 
         csv_df['Participant Number'] = csv_df['Participant Number'].astype(str)
@@ -279,7 +281,7 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'zizzl_MMDDYYYY_105.csv',
+            file_name = 'zizzl_MMDDYYYY_105HF1.csv',
             mime='text'
         )
     
@@ -299,7 +301,7 @@ if csv is not None:
         csv_df.insert(30, 'Coordination of Benefits', 0)
         csv_df.insert(31, 'Termination Reason', '')
 
-        csv_df['Participant Zip Code'] = csv_df['Participant Zip Code'].apply('{:0>5}'.format)
+        csv_df['Participant Zip Code'] = keep_format(csv_df['Participant Zip Code'].apply('{:0>5}'.format))
         st.write(csv_df)
         #st.write(csv_df['Participant Number'][3])
 
@@ -327,6 +329,8 @@ if csv is not None:
                 csv_df['Location'][i] = 'Highland Bank'
             elif(csv_df['Client Federal ID'][i] == '391753459'):
                 csv_df['Client Federal ID'][i] = '921398442'
+            elif(csv_df['Client Federal ID'][i] == '842016212' or csv_df['Client Federal ID'][i] == '264677834' or csv_df['Client Federal ID'][i] == '261132759'):
+                csv_df['Client Federal ID'][i] = '261132759'
 
             
             if(csv_df['Participant State'][i] in us_state_to_abbrev): 
@@ -423,7 +427,7 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'zizzl_MMDDYYYY_105.csv',
+            file_name = 'zizzl_MMDDYYYY_105EL1.csv',
             mime='text'
         )
 
@@ -494,7 +498,8 @@ if csv is not None:
                 csv_df['Location'][i] = 'Wall Companies'
             elif(csv_df['Client Federal ID'][i] == '391753459'):
                 csv_df['Client Federal ID'][i] = '921398442'
-
+            elif(csv_df['Client Federal ID'][i] == '842016212' or csv_df['Client Federal ID'][i] == '264677834' or csv_df['Client Federal ID'][i] == '261132759'):
+                csv_df['Client Federal ID'][i] = '261132759'
             
 
             #if(csv_df['Relationship'][i] == 'Child' or csv_df['Relationship'][i] == 'Spouse' or csv_df['Relationship'][i] == 'Domestic Partner'):
@@ -553,6 +558,6 @@ if csv is not None:
         st.download_button(
             label = "Download data as CSV",
             data = csv_df.to_csv(index = False).encode('utf-8'),
-            file_name = 'zizzl_MMDDYYYY_223.csv',
+            file_name = 'zizzl_MMDDYYYY_223EL1.csv',
             mime='text'
         )
