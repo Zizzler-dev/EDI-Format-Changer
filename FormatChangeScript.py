@@ -337,6 +337,7 @@ if csv is not None:
             elif(csv_df['Client Federal ID'][i] == '391753459'):
                 csv_df['Client Federal ID'][i] = '921398442'
             elif(csv_df['Client Federal ID'][i] == '842016212' or csv_df['Client Federal ID'][i] == '264677834' or csv_df['Client Federal ID'][i] == '261132759'):
+                csv_df['Location'][i] = csv_df['Client Federal ID'][i]
                 csv_df['Client Federal ID'][i] = '261132759'
             elif(csv_df['Client Federal ID'][i] == '510064315' or csv_df['Client Federal ID'][i] == '510070786' or csv_df['Client Federal ID'][i] == '510075823' or csv_df['Client Federal ID'][i] == '510097026' or csv_df['Client Federal ID'][i] == '510110582'):
                 csv_df['Client Federal ID'][i] = '510064315'
