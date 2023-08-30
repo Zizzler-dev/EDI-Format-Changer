@@ -359,9 +359,9 @@ if csv is not None:
 
             
 
-            if(csv_df['Enroll Plan Type Code'][i] == True):
+            if(csv_df['Enroll Plan Type Code'][i] == 'Yes'):
                 csv_df['Enroll Plan Type Code'][i] = 'HSA Plan'
-            elif(csv_df['Enroll Plan Type Code'][i] == False):
+            elif(csv_df['Enroll Plan Type Code'][i] == 'No'):
                 csv_df['Enroll Plan Type Code'][i] = 'Non HSA Plan'
             
             csv_df['Date of Birth'][i] = fill_date(csv_df['Date of Birth'][i])
