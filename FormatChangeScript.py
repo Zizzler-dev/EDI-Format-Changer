@@ -208,6 +208,10 @@ if csv is not None:
         csv_df['Client Federal ID'] = csv_df['Client Federal ID'].astype(str)
         csv_df['Client Federal ID'] = keep_format(csv_df['Client Federal ID'])
 
+        csv_df['Participant Zip Code'] = csv_df['Participant Zip Code'].astype(str)
+        csv_df['Participant Zip Code'] = csv_df['Participant Zip Code'].str.split('.').str[0].str.zfill(5)
+        csv_df['Participant Zip Code'] = keep_format(csv_df['Participant Zip Code'])
+
         csv_df = csv_df.astype('str')
         st.write(csv_df)
 
@@ -251,7 +255,7 @@ if csv is not None:
             csv_df['Participant Number'][i] = str(csv_df['Participant Number'][i]).translate({ord(i): None for i in '-'}) 
             csv_df['Funding Amount'][i] = str(csv_df['Funding Amount'][i])
 
-            if (csv_df['Plan Code'][i] == True):
+            if (csv_df['Plan Code'][i] == 'Yes'):
                 csv_df['Plan Code'][i] = 2
             else:
                 csv_df['Plan Code'][i] = 1
@@ -359,9 +363,9 @@ if csv is not None:
 
             
 
-            if(csv_df['Enroll Plan Type Code'][i] == 'Yes'):
+            if(csv_df['Enroll Plan Type Code'][i] == True):
                 csv_df['Enroll Plan Type Code'][i] = 'HSA Plan'
-            elif(csv_df['Enroll Plan Type Code'][i] == 'No'):
+            elif(csv_df['Enroll Plan Type Code'][i] == False):
                 csv_df['Enroll Plan Type Code'][i] = 'Non HSA Plan'
             
             csv_df['Date of Birth'][i] = fill_date(csv_df['Date of Birth'][i])
