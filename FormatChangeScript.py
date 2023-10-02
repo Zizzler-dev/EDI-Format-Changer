@@ -91,6 +91,7 @@ format_change = st.selectbox('Pick one' , ['DBS FSA', 'DBS HRA Funding', 'DBS HR
 if csv is not None:
     csv_df = pd.read_csv(csv)
     
+    
 
     if(format_change == 'DBS FSA'):
         csv_df = csv_df.rename(columns = {"FEIN":"Client Federal ID", "SSN":"Participant Number","First Name":"Participant First Name","Middle Name":"Participant Middle Initial","Last Name":"Participant Last Name","Address Line 1":"Participant Address 1","Address Line 2":"Participant Address 2","City":"Participant City","State":"Participant State","Zip":"Participant Zip Code","EE Email":"Participant Email Address", "EE Date of Birth":"Participant Date of Birth", "Home Phone":"Participant Phone","Pay Frequency": "Payroll Mode", "Benefit Plan Sub Code 1":"Plan Type Code","Coverage Effective Date":"Enrollment Effective Date","FSA Monthly Amount":"Pay Period Amount", "FSA Elected Amount": "Annual Election"})
@@ -125,24 +126,24 @@ if csv is not None:
 
             if(csv_df['Payroll Mode'][i] == 'Bi-Weekly (26 per year)'):                         #This if-else loop is used to calculate pay period amount
                 csv_df['Payroll Mode'][i] = 'B'
-                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 26, 2)
+                #csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 26, 2)
             elif(csv_df['Payroll Mode'][i] == 'Semi-Monthly (24 per year)'):
                 csv_df['Payroll Mode'][i] = 'S'
-                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 24, 2)
+                #csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 24, 2)
             elif(csv_df['Payroll Mode'][i] == 'Weekly (52 per year)'):
                 csv_df['Payroll Mode'][i] = 'W'
-                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 52, 2)
+                #csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 52, 2)
             elif(csv_df['Payroll Mode'][i] == 'Weekly (48 per year)'):
                 csv_df['Payroll Mode'][i] = 'W'
-                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 48, 2)
+                #csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 48, 2)
             elif(csv_df['Payroll Mode'][i] == 'Monthly (12 per year)'):
                 csv_df['Payroll Mode'][i] = 'M'
-                csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 12, 2)
+                #csv_df['Pay Period Amount'][i] = round(csv_df['Annual Election'][i] / 12, 2)
 
             if(csv_df['Plan Type Code'][i] == 2 or csv_df['Plan Type Code'][i] == 4):
                 csv_df['Debit Card Enrollment'][i] = 1
             
-            csv_df['Pay Period Amount'][i] = str(csv_df['Pay Period Amount'][i]).replace(',', '') #remove commas
+            #csv_df['Pay Period Amount'][i] = str(csv_df['Pay Period Amount'][i]).replace(',', '') #remove commas
 
             csv_df['Annual Election'][i] = str(csv_df['Annual Election'][i]).replace(',', '') #remove commas
 
@@ -194,7 +195,7 @@ if csv is not None:
         csv_df['Participant Number'] = csv_df['Participant Number'].astype(str)
         csv_df['Participant Number'] = keep_format(csv_df['Participant Number'])
         csv_df['Annual Election'] = csv_df['Annual Election'].astype(float)
-        csv_df['Pay Period Amount'] = csv_df['Pay Period Amount'].astype(float)
+        #csv_df['Pay Period Amount'] = csv_df['Pay Period Amount'].astype(float)
         csv_df['Annual Election'] = csv_df['Annual Election'].map('{:.2f}'.format)
         csv_df['Pay Period Amount'] = csv_df['Pay Period Amount'].map('{:.2f}'.format)
 
@@ -203,7 +204,7 @@ if csv is not None:
         csv_df['Effective Posting Date'] = keep_format(csv_df['Effective Posting Date'])
         
         csv_df['Annual Election'] = keep_format(csv_df['Annual Election'])
-        csv_df['Pay Period Amount'] = keep_format(csv_df['Pay Period Amount'])
+        #csv_df['Pay Period Amount'] = keep_format(csv_df['Pay Period Amount'])
 
         csv_df['Client Federal ID'] = csv_df['Client Federal ID'].astype(str)
         csv_df['Client Federal ID'] = keep_format(csv_df['Client Federal ID'])
@@ -474,19 +475,20 @@ if csv is not None:
 
             if(csv_df['Payroll Mode'][i] == 'Bi-Weekly (26 per year)'):                         #This if-else loop is used to calculate pay period amount
                 csv_df['Payroll Mode'][i] = 'B'
-                csv_df['Employee Contribution - Pay Period Amount'][i] = round(csv_df['Employee Contribution - Annual Election'][i] / 26 , 2)
+                #csv_df['Employee Contribution - Pay Period Amount'][i] = round(csv_df['Employee Contribution - Annual Election'][i] / 26 , 2)
                 
             elif(csv_df['Payroll Mode'][i] == 'Semi-Monthly (24 per year)'):
                 csv_df['Payroll Mode'][i] = 'S'
-                csv_df['Employee Contribution - Pay Period Amount'][i] = round(csv_df['Employee Contribution - Annual Election'][i] / 24, 2)
+                #csv_df['Employee Contribution - Pay Period Amount'][i] = round(csv_df['Employee Contribution - Annual Election'][i] / 24, 2)
                 
             elif(csv_df['Payroll Mode'][i] == 'Weekly (52 per year)'):
                 csv_df['Payroll Mode'][i] = 'W'
-                csv_df['Employee Contribution - Pay Period Amount'][i] = round(csv_df['Employee Contribution - Annual Election'][i] / 52, 2)
+                #csv_df['Employee Contribution - Pay Period Amount'][i] = round(csv_df['Employee Contribution - Annual Election'][i] / 52, 2)
                 
             elif(csv_df['Payroll Mode'][i] == 'Monthly (12 per year)'):
                 csv_df['Payroll Mode'][i] = 'M'
-                csv_df['Employee Contribution - Pay Period Amount'][i] = round(csv_df['Employee Contribution - Annual Election'][i] / 12, 2)
+                #
+                # csv_df['Employee Contribution - Pay Period Amount'][i] = round(csv_df['Employee Contribution - Annual Election'][i] / 12, 2)
                 
 
             csv_df['Client Federal ID'][i] = str(csv_df['Client Federal ID'][i]).translate({ord(i): None for i in '-'}) 
@@ -553,9 +555,9 @@ if csv is not None:
         csv_df['Participant Date of Birth'] = keep_format(csv_df['Participant Date of Birth'])
         csv_df['Enrollment Effective Date'] = keep_format(csv_df['Enrollment Effective Date'])
 
-        csv_df['Employee Contribution - Pay Period Amount'] = csv_df['Employee Contribution - Pay Period Amount'].astype(float)
-        csv_df['Employee Contribution - Pay Period Amount'] = csv_df['Employee Contribution - Pay Period Amount'].map('{:.2f}'.format)
-        csv_df['Employee Contribution - Pay Period Amount'] = keep_format(csv_df['Employee Contribution - Pay Period Amount'])
+        #csv_df['Employee Contribution - Pay Period Amount'] = csv_df['Employee Contribution - Pay Period Amount'].astype(float)
+        #csv_df['Employee Contribution - Pay Period Amount'] = csv_df['Employee Contribution - Pay Period Amount'].map('{:.2f}'.format)
+        #csv_df['Employee Contribution - Pay Period Amount'] = keep_format(csv_df['Employee Contribution - Pay Period Amount'])
 
         csv_df['Employee Contribution - Annual Election'] = csv_df['Employee Contribution - Annual Election'].astype(float)
         csv_df['Employee Contribution - Annual Election'] = csv_df['Employee Contribution - Annual Election'].map('{:.2f}'.format)
