@@ -143,7 +143,7 @@ if csv is not None:
             if(csv_df['Plan Type Code'][i] == 2 or csv_df['Plan Type Code'][i] == 4):
                 csv_df['Debit Card Enrollment'][i] = 1
             
-            #csv_df['Pay Period Amount'][i] = str(csv_df['Pay Period Amount'][i]).replace(',', '') #remove commas
+            csv_df['Pay Period Amount'][i] = None #remove commas
 
             csv_df['Annual Election'][i] = str(csv_df['Annual Election'][i]).replace(',', '') #remove commas
 
@@ -197,7 +197,7 @@ if csv is not None:
         csv_df['Annual Election'] = csv_df['Annual Election'].astype(float)
         #csv_df['Pay Period Amount'] = csv_df['Pay Period Amount'].astype(float)
         csv_df['Annual Election'] = csv_df['Annual Election'].map('{:.2f}'.format)
-        csv_df['Pay Period Amount'] = csv_df['Pay Period Amount'].map('{:.2f}'.format)
+        #csv_df['Pay Period Amount'] = csv_df['Pay Period Amount'].map('{:.2f}'.format)
 
         csv_df['Participant Date of Birth'] = keep_format(csv_df['Participant Date of Birth'])
         csv_df['Enrollment Effective Date'] = keep_format(csv_df['Enrollment Effective Date'])
@@ -558,7 +558,7 @@ if csv is not None:
         #csv_df['Employee Contribution - Pay Period Amount'] = csv_df['Employee Contribution - Pay Period Amount'].astype(float)
         #csv_df['Employee Contribution - Pay Period Amount'] = csv_df['Employee Contribution - Pay Period Amount'].map('{:.2f}'.format)
         #csv_df['Employee Contribution - Pay Period Amount'] = keep_format(csv_df['Employee Contribution - Pay Period Amount'])
-
+        csv_df['Employee Contribution - Pay Period Amount'] = None
         csv_df['Employee Contribution - Annual Election'] = csv_df['Employee Contribution - Annual Election'].astype(float)
         csv_df['Employee Contribution - Annual Election'] = csv_df['Employee Contribution - Annual Election'].map('{:.2f}'.format)
         csv_df['Employee Contribution - Annual Election'] = keep_format(csv_df['Employee Contribution - Annual Election'])
